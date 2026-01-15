@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2026 丙午马年·万事如意</title>
+    <style>
+        /* 引用衬线体，复刻海报英文质感 */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Noto+Serif+SC:wght@700&display=swap');
+
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #f4efe4; /* 海报同款米色 */
+            font-family: 'Noto Serif SC', serif;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 页面纹理和背景马 */
+        .bg-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/rice-paper.png');
+            opacity: 0.5;
+            pointer-events: none;
+        }
+        .bg-horse {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-55%);
+            width: 90%;
+            opacity: 0.08; /* 极淡的底纹效果 */
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* 顶部署名区 */
+        .header {
+            position: absolute;
+            top: 30px;
+            left: 25px;
+            display: flex;
+            align-items: center;
+            z-index: 10;
+        }
+        .avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 4px;
+            border: 1px solid #d4af37;
+            background-image: url('paul.jpg'); /* 请确保图片名为 paul.jpg */
+            background-size: cover;
+            background-position: center;
+            margin-right: 12px;
+        }
+        .header-text {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1a1a1a;
+            letter-spacing: 1px;
+        }
+
+        /* 英文标题区 */
+        .eng-title {
+            position: absolute;
+            top: 100px;
+            left: 25px;
+            z-index: 5;
+        }
+        .eng-title h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            margin: 0;
+            line-height: 0.9;
+            color: #1a1a1a;
+        }
+        .eng-title p {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            margin: 5px 0;
+            letter-spacing: 2px;
+        }
+
+        /* 右侧书法大字 */
+        .calligraphy {
+            position: absolute;
+            top: 30px;
+            right: 20px;
+            writing-mode: vertical-rl;
+            font-size: 60px;
+            color: #b5231f; /* 海报红色 */
+            font-weight: bold;
+            font-family: "STXingkai", "华文行楷", cursive;
+            letter-spacing: 8px;
+            z-index: 5;
+        }
+
+        /* 红包主体 */
+        .envelope-box {
+            position: relative;
+            z-index: 20;
+            margin-top: 50px;
+        }
+        .envelope {
+            width: 260px;
+            height: 360px;
+            background: #cf2d28;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            box-shadow: 0 15px 40px rgba(181, 35, 31, 0.3);
+            border: 2px solid #d4af37;
+            display: flex;
+            justify-content: center;
+            transition: 0.3s;
+        }
+        .flap {
+            width: 100%;
+            height: 180px;
+            background: #e33b35;
+            border-radius: 12px 12px 130px 130px;
+            position: absolute;
+            top: 0;
+            border-bottom: 2px solid #d4af37;
+            z-index: 2;
+        }
+        .open-btn {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #fcdb5a, #d4af37);
+            border-radius: 50%;
+            border: 4px solid #fff;
+            position: absolute;
+            top: 135px;
+            z-index: 3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: #8c6d00;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: 0.5s;
+        }
+
+        /* 弹出卡片样式 */
+        #result-card {
+            display: none;
+            position: absolute;
+            width: 240px;
+            background: #fffcf5;
+            border: 2px solid #d4af37;
+            padding: 40px 20px;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 100;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: cardShow 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+        }
+        @keyframes cardShow {
+            from { opacity: 0; transform: translate(-50%, -40%) scale(0.8); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        .blessing-tag { font-size: 12px; color: #b5231f; margin-bottom: 15px; letter-spacing: 2px; border-bottom: 1px solid #eee; padding-bottom: 8px;}
+        .blessing-text { font-size: 22px; font-weight: bold; color: #333; line-height: 1.6; }
+
+        /* 底部标注 */
+        .footer {
+            position: absolute;
+            bottom: 20px;
+            font-size: 13px;
+            color: #666;
+            letter-spacing: 4px;
+            width: 100%;
+            text-align: center;
+        }
+
+        /* 简单动画 */
+        .shake { animation: shake 1s infinite; }
+        @keyframes shake { 0%, 100% { transform: rotate(0); } 10%, 30%, 50%, 70%, 90% { transform: rotate(-2deg); } 20%, 40%, 60%, 80% { transform: rotate(2deg); } }
+        .fade-out { opacity: 0; pointer-events: none; transition: 0.4s; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-overlay"></div>
+    <img src="https://openclipart.org/image/800px/216508" class="bg-horse" alt="horse"> <div class="header">
+        <div class="avatar"></div>
+        <div class="header-text">Paul携科研五组全体</div>
+    </div>
+
+    <div class="eng-title">
+        <h1>CHINESE</h1>
+        <p>NEW YEAR</p>
+        <div style="font-size: 14px; color:#b5231f; margin-top:10px;">丙午马年 · 2026</div>
+    </div>
+
+    <div class="calligraphy">馬年大吉</div>
+
+    <div class="envelope-box">
+        <div class="envelope shake" id="envelope" onclick="openPacket()">
+            <div class="flap"></div>
+            <div class="open-btn" id="btn">開</div>
+        </div>
+    </div>
+
+    <div id="result-card">
+        <div class="blessing-tag">恭贺新禧 · 丙午马年</div>
+        <div class="blessing-text" id="blessing"></div>
+    </div>
+
+    <div class="footer">中 · 国 · 传 · 统 · 节 · 日</div>
+
+<script>
+    const config = [
+        { text: "仓盈庚亿，年岁有息", weight: 0.20 },
+        { text: "万马奔腾，共赴前程", weight: 0.20 },
+        { text: "顺颂时宜，喜乐长安", weight: 0.20 },
+        { text: "春日载阳，福履齐长", weight: 0.20 },
+        { text: "旧岁千般皆如意，新年万事定称心", weight: 0.10 },
+        { text: "找徐老师领取马年红包吧！", weight: 0.10 }
+    ];
+
+    function openPacket() {
+        const env = document.getElementById('envelope');
+        const card = document.getElementById('result-card');
+        const bText = document.getElementById('blessing');
+        
+        env.classList.remove('shake');
+        env.classList.add('fade-out');
+        
+        const rand = Math.random();
+        let cumulative = 0;
+        let selected = config[0].text;
+        
+        for (const item of config) {
+            cumulative += item.weight;
+            if (rand < cumulative) {
+                selected = item.text;
+                break;
+            }
+        }
+
+        setTimeout(() => {
+            env.style.display = 'none';
+            bText.innerText = selected;
+            card.style.display = 'block';
+        }, 400);
+    }
+</script>
+</body>
+</html>
